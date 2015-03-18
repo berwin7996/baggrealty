@@ -6,6 +6,5 @@ install: "pip install -r requirements.txt"
 deploy:
   provider: heroku
   api_key: 
-  	secure: A5cZi/GCE8wZgU+fxm3/FRogJ76t1hBueOPe8uU1kcKutrFyKJhG4J8xTRm53UYayNxgZIkybhJr/LqUq5Ez5xlAlMB+S9P2eieNjAY4KienxyWob2Fhk4X0D5hUmhirn0MlLTvJ9WHBmGUzag78oKYLouGadooOojwly8n3CCQ=
-
+    secure: A5cZi/GCE8wZgU+fxm3/FRogJ76t1hBueOPe8uU1kcKutrFyKJhG4J8xTRm53UYayNxgZIkybhJr/LqUq5Ez5xlAlMB+S9P2eieNjAY4KienxyWob2Fhk4X0D5hUmhirn0MlLTvJ9WHBmGUzag78oKYLouGadooOojwly8n3CCQ=
   app: baggrealty
