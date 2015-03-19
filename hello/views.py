@@ -21,6 +21,6 @@ def index(request):
     return HttpResponse('Welcome to Bagg Realty!')
 def db(request):
     greeting = Greeting()
-    greeting.save() ...
+    greeting.save()
     greetings = Greeting.objects.all()
     return render(request, 'db.html', {'greetings': greetings})
