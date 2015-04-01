@@ -91,8 +91,8 @@ class Property(models.Model):
 
     def get_occupied_units(self):
         now = timezone.now()
-        contracts = LivesIn.objects.raw('SELECT * FROM "realty_management_livesin" WHERE "realty_management_livesin"."unit_number_id" IN (' + ','.join([str(u.pk) for u in self.get_owned_units()]) + ')')
-
+        #contracts = LivesIn.objects.raw('SELECT * FROM "realty_management_livesin" WHERE "realty_management_livesin"."unit_number_id" IN (' + ','.join([str(u.pk) for u in self.get_owned_units()]) + ')')
+        contracts = LivesIn.objects.filter(unit_number__in=self.get_owned_units())
 #         for q in connection.queries:
 #             print(q['sql'])
 #             print('\n')
