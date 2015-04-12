@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^(?P<action>\w+)/(?P<form_name>\w+)/(?P<key>.*)$', 'realty_management.views.modify_info', name='modify_info'),
     url(r'^delete$', 'realty_management.views.delete_info', name='delete_info'),
     url(r'^search$', 'realty_management.views.search', name='search'),
+    url(r'^map$', 'realty_management.views.map', name='map'),
 )
