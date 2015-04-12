@@ -272,3 +272,6 @@ def edit_info(request, form, template, key):
     context['key'] = key
 
     return render(request, template, context)
+
+def map(request):
+    return render(request, 'realty_management/map.html')
