@@ -275,3 +275,4 @@ def edit_info(request, form, template, key):
 
 def map(request):
     return render(request, 'realty_management/map.html')
+    #hallo pretty princess
