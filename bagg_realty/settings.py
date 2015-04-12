@@ -14,6 +14,13 @@ test synce
 import os
 import dj_database_url
 
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'baggrealty@gmail.com'
+EMAIL_HOST_PASSWORD = 'kevinchang411'
+EMAIL_PORT = 587
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
