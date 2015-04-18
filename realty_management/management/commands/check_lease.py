@@ -10,8 +10,8 @@ class Command(BaseCommand):
             todayplusthirty = datetime.now() + timedelta(days=30)
             contracts = LivesIn.objects.filter(unit_number__in=p.get_owned_units())
             for c in contracts:
-                print('time right now + 30 days: ' + todayplusthirty.replace(tzinfo=None))
-                print('lease end time: ' + c.lease_end.replace(tzinfo=None))
+                print('time right now + 30 days: ' + str(todayplusthirty.replace(tzinfo=None)))
+                print('lease end time: ' + str(c.lease_end.replace(tzinfo=None)))
                 if todayplusthirty.replace(tzinfo=None) > c.lease_end.replace(tzinfo=None):
                     #end email if date is 30 before end of lease
                     print(p.address, c.unit_number)
