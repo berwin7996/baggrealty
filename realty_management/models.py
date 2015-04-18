@@ -2,6 +2,7 @@ from django.db import models, connection
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
+from django.core.mail import send_mail
 
 MAX_SSN   = [MaxValueValidator(999999999), MinValueValidator(100000000)]
 MAX_PHONE = [MaxValueValidator(9999999999), MinValueValidator(1000000000)]
@@ -100,6 +101,14 @@ class Property(models.Model):
         ongoing_contracts = [c for c in contracts if c.lease_end >= now >= c.lease_start]
         return [c.unit_number for c in ongoing_contracts]
 
+    def check_expire(self):
+        todayplusthirty = datetime.now() + timedelta(days=30)
+        contracts = LivesIn.objects.filter(unit_number__in=self.get_owned_units())
+        for c in contracts:
+            if todayplusthirty > c.lease_end:
+                #end email if date is 30 before end of lease
+                message = send_mail('LEASE EXPIRING SOON', '', 'baggrealty@gmail.com', ['baggrealty@gmail.com'], fail_silently=False)
+
     def get_owned_units(self):
         return Unit.objects.filter(property=self)
 
@@ -128,6 +137,7 @@ class LivesIn(models.Model):
     lease_start = models.DateTimeField()
     lease_end = models.DateTimeField()
     lease_copy = models.FileField(upload_to='.')
+
 
     class Meta:
         unique_together = ('main_tenant', 'unit_number', 'lease_end')
