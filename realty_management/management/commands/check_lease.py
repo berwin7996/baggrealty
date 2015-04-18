@@ -19,7 +19,7 @@ class Command(BaseCommand):
                     #end email if date is 30 before end of lease
                     foundcontract = True
                     print(p.address, c.unit_number)
-                    bodymsg += 'Your property at ' + str(p.address) + ' ' + str(c.unit_number) + ' has a lease expiring on ' + str(c.lease_end.date()) + ' for tenant named: ' + c.main_tenant + '\n'
+                    bodymsg += 'Your property at ' + str(p.address) + ' ' + str(c.unit_number) + ' has a lease expiring on ' + str(c.lease_end.date()) + ' for tenant named: ' + str(c.main_tenant) + '\n'
         #only sends one email per day with summary of which properties are expiring
         if foundcontract:
             message = send_mail('LEASE EXPIRING SOON', bodymsg, 'baggrealty@gmail.com', ['baggrealty@gmail.com'], fail_silently=False)
