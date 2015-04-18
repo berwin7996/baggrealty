@@ -1,6 +1,7 @@
 from django.core.management import BaseCommand, CommandError
 from realty_management.models import Property, LivesIn
 from datetime import datetime, timedelta
+from django.core.mail import send_mail
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
