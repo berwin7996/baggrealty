@@ -11,4 +11,5 @@ class Command(BaseCommand):
 	        for c in contracts:
 	            if todayplusthirty.replace(tzinfo=None) > c.lease_end.replace(tzinfo=None):
 	                #end email if date is 30 before end of lease
+	                print(p.address, c.unit_number)
 	                message = send_mail('LEASE EXPIRING SOON', '', 'baggrealty@gmail.com', ['baggrealty@gmail.com'], fail_silently=False)
