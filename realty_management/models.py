@@ -100,7 +100,7 @@ class Property(models.Model):
 
         ongoing_contracts = [c for c in contracts if c.lease_end >= now >= c.lease_start]
         return [c.unit_number for c in ongoing_contracts]
-
+    '''
     def check_expire(self):
         todayplusthirty = datetime.now() + timedelta(days=30)
         contracts = LivesIn.objects.filter(unit_number__in=self.get_owned_units())
@@ -108,7 +108,8 @@ class Property(models.Model):
             if todayplusthirty > c.lease_end:
                 #end email if date is 30 before end of lease
                 message = send_mail('LEASE EXPIRING SOON', '', 'baggrealty@gmail.com', ['baggrealty@gmail.com'], fail_silently=False)
-
+    '''
+    
     def get_owned_units(self):
         return Unit.objects.filter(property=self)
 
