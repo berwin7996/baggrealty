@@ -7,6 +7,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         properties = Property.objects.all()
         foundcontract = False
+        bodymsg = ''
         for p in properties:
             print('checking contracts for ' + p.address)
             todayplusthirty = datetime.now() + timedelta(days=30)
@@ -16,6 +17,7 @@ class Command(BaseCommand):
                 print('lease end time: ' + str(c.lease_end.replace(tzinfo=None)))
                 if todayplusthirty.replace(tzinfo=None) > c.lease_end.replace(tzinfo=None):
                     #end email if date is 30 before end of lease
+                    foundcontract = True
                     print(p.address, c.unit_number)
                     bodymsg += 'Your property at ' + str(p.address) + ' unit number ' + str(c.unit_number) + ' has a lease expiring on ' + str(c.lease_end.replace(tzinfo=None)) + '\n'
         #only sends one email per day with summary of which properties are expiring
