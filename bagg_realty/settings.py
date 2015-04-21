@@ -16,8 +16,9 @@ import dj_database_url
 
 
 EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'baggrealty@gmail.com'
+EMAIL_HOST_USER = 'baggrealty'
 EMAIL_HOST_PASSWORD = 'kevinchang411'
 EMAIL_PORT = 587
 
