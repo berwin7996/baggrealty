@@ -1,82 +1,38 @@
-'''
-Return the shortest route from the start to end cities and its info.
-'''
-def shortestRoute(properties, start, end):
-    nodes = dict()
-    for n in network.nodes.values():
-        nodes[n.code] = {maxint, False}
-    nodes[start] = {0, False}
-    
-    distance, previous = dijkstra(network, start)
-    path = betweenTwo(start, end, distance, previous)
-    distance, cost, time = routeInfo(network, path)
-    return path, distance, cost, time
+from geopy.geocoders import Nominatim
+from geopy.distance import vincenty
+geolocator = Nominatim()
 
-'''
-Construct the shortest route between two cities from the results of Dijkstra's.
-'''
-def betweenTwo(start, end, distance, previous):
+class Location(object):
+    def __init__(self, address):
+        self.address = address
+        self.urladdress = address.replace(" ", "+")
+        loc = geolocator.geocode(address)
+        self.lat = loc.latitude
+        self.long = loc.longitude
+
+def shortest_route(properties, start, end):
+    locations = list()
     path = list()
-    #totalDistance = 0
-    city = end
-    while previous[city] != None:
-        path.append(city)
-        #totalDistance += distance[city]
-        city = previous[city]
-    path.append(start)
-    path.reverse()
-    return path#, totalDistance
+    for p in properties:
+        locations.append(Location(p.address))
 
-'''
-Dijkstra's algorithm.
-'''
-def dijkstra(network, start):
-    distance = dict()
-    distance[start] = 0
-    
-    previous = dict()
-    previous[start] = None
-    
-    unvisited = list()
-    
-    for city in network.nodes:
-        if city != start:
-            distance[city] = maxint
-            previous[city] = None
-        unvisited.append(city)
-    
-    while len(unvisited) > 0:
-        nearest = None
-        minDistance = maxint
-        for city in unvisited:
-            if distance[city] < minDistance:
-                nearest = city
-                minDistance = distance[city]
-        unvisited.remove(nearest)
-        
-        for neighbor in getNeighbors(network, nearest):
-            if neighbor in unvisited:
-                nDist = distance[nearest] + getDistance(network, nearest, neighbor)
-                if nDist < distance[neighbor]:
-                    distance[neighbor] = nDist
-                    previous[neighbor] = nearest
-                    
-    return distance, previous
+    curr = start
+    path.append(curr)
+    while len(locations) > 0:
+        nearest = find_nearest(curr, locations)
+        locations.remove(curr)
+        curr = nearest
+        path.append(curr)
+    path.pop([0])
+    return path
 
-'''
-Return the neighbors of a city.
-'''  
-def getNeighbors(network, city):
-    neighbors = list()
-    for route in network.edges:
-        if route.start == city:
-            neighbors.append(route.end)
-    return neighbors
-
-'''
-Return the distance between two cities.
-'''
-def getDistance(start, end):
-    for route in network.edges:
-        if route.start == start and route.end == end:
-            return route.distance
+def find_nearest(curr, locations):
+    min_dist = -1
+    nearest = None
+    for l in locations:
+        if l is not curr:
+            dist = vincenty((curr.lat, curr.long), (l.lat, l.long))
+            if min_dist == -1 or dist < min_dist:
+                min_dist = dist
+                nearest = l
+    return nearest

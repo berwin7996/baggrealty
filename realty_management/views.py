@@ -275,12 +275,11 @@ def edit_info(request, form, template, key):
     return render(request, template, context)
 
 def map(request):
-    query = Q()
-        for word in query_string.split(' '):
-            query |= Q(address__icontains=word)   \
-                  |  Q(num_units__icontains=word) \
-                  |  Q(owner__icontains=word)
-
-        properties = model.objects.filter(query)
-        context = {'objects': properties, 'model': 'Property', 'add_gone': True}
-    return render(request, 'realty_management/map.html')
+    properties = Property.objects.all()
+    start = "201 N Goodwin Ave, Urbana, IL 61801"
+    end = start
+    path = shortest_route(properties, start, end)
+    waypoints = '|'.join(path)
+    url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBU8AHGoKQ9XfcO1QmfrdQjmEWKoiEZAuU&amp;origin="+start+"&amp;destination="+end+"&amp;waypoints="+waypoints+"&amp;mode=driving"
+    context = {'properties': properties, 'url': url, 'add_gone': True}
+    return render(request, 'realty_management/map.html', context)
