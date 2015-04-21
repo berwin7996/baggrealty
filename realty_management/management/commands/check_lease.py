@@ -24,7 +24,7 @@ class Command(BaseCommand):
             for c in contracts:
                 print('time right now + 30 days: ' + str(todayplusthirty))
                 print('lease end time: ' + str(c.lease_end.date()))
-                if todayplusthirty> c.lease_end.date() and c.lease_end.date() < todayplusforty:
+                if todayplusthirty > c.lease_end.date() and c.lease_end.date() < todayplusforty:
                     #end email if date is 30 before end of lease
                     foundcontract = True
                     print(p.address, c.unit_number)
