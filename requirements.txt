@@ -11,3 +11,5 @@ phonenumbers==7.0.2
 psycopg2==2.6
 wsgiref==0.1.2
 geopy==1.9.1
+django-twilio==0.4
+twilio==3.6.3
