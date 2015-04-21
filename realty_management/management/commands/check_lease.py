@@ -19,11 +19,12 @@ class Command(BaseCommand):
         for p in properties:
             print('checking contracts for ' + p.address)
             todayplusthirty = date.today() + timedelta(days=30)
+            todayplusforty = date.today() + timedelta(days=40)
             contracts = LivesIn.objects.filter(unit_number__in=p.get_owned_units())
             for c in contracts:
                 print('time right now + 30 days: ' + str(todayplusthirty))
                 print('lease end time: ' + str(c.lease_end.date()))
-                if todayplusthirty> c.lease_end.date():
+                if todayplusthirty> c.lease_end.date() and c.lease_end.date() < todayplusforty:
                     #end email if date is 30 before end of lease
                     foundcontract = True
                     print(p.address, c.unit_number)
