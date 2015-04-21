@@ -5,7 +5,6 @@ geolocator = Nominatim()
 class Location(object):
     def __init__(self, address):
         self.address = address
-        self.urladdress = address.replace(" ", "+")
         loc = geolocator.geocode(address)
         self.lat = loc.latitude
         self.long = loc.longitude
@@ -17,15 +16,15 @@ def shortest_route(properties, start, end):
         locations.append(Location(p.address))
 
     curr = Location(start)
-    path.append(curr.urladdress)
+    path.append(curr.address.replace(" ", "+"))
     while len(locations) > 1:
         nearest = find_nearest(curr, locations)
         if curr in locations:
             locations.remove(curr)
         curr = nearest
-        path.append(curr.urladdress)
+        path.append(curr.address.replace(" ", "+"))
     path.pop(0)
-    path.append(locations[0].urladdress)
+    path.append(locations[0].address.replace(" ", "+"))
     return path
 
 def find_nearest(curr, locations):
