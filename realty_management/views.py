@@ -5,6 +5,7 @@ from django.forms.models import inlineformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from realty_management.forms import *
 from realty_management.models import *
+from realty_management.dijkstra import *
 
 models = [MainTenant, Unit, Property, Vendor, LivesIn, Supports]
 forms = [MainTenantForm, UnitForm, PropertyForm, VendorForm, LivesInForm, SupportsForm]
@@ -274,5 +275,12 @@ def edit_info(request, form, template, key):
     return render(request, template, context)
 
 def map(request):
+    query = Q()
+        for word in query_string.split(' '):
+            query |= Q(address__icontains=word)   \
+                  |  Q(num_units__icontains=word) \
+                  |  Q(owner__icontains=word)
+
+        properties = model.objects.filter(query)
+        context = {'objects': properties, 'model': 'Property', 'add_gone': True}
     return render(request, 'realty_management/map.html')
-    #hallo pretty princess

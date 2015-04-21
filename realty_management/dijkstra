@@ -1,0 +1,82 @@
+'''
+Return the shortest route from the start to end cities and its info.
+'''
+def shortestRoute(properties, start, end):
+    nodes = dict()
+    for n in network.nodes.values():
+        nodes[n.code] = {maxint, False}
+    nodes[start] = {0, False}
+    
+    distance, previous = dijkstra(network, start)
+    path = betweenTwo(start, end, distance, previous)
+    distance, cost, time = routeInfo(network, path)
+    return path, distance, cost, time
+
+'''
+Construct the shortest route between two cities from the results of Dijkstra's.
+'''
+def betweenTwo(start, end, distance, previous):
+    path = list()
+    #totalDistance = 0
+    city = end
+    while previous[city] != None:
+        path.append(city)
+        #totalDistance += distance[city]
+        city = previous[city]
+    path.append(start)
+    path.reverse()
+    return path#, totalDistance
+
+'''
+Dijkstra's algorithm.
+'''
+def dijkstra(network, start):
+    distance = dict()
+    distance[start] = 0
+    
+    previous = dict()
+    previous[start] = None
+    
+    unvisited = list()
+    
+    for city in network.nodes:
+        if city != start:
+            distance[city] = maxint
+            previous[city] = None
+        unvisited.append(city)
+    
+    while len(unvisited) > 0:
+        nearest = None
+        minDistance = maxint
+        for city in unvisited:
+            if distance[city] < minDistance:
+                nearest = city
+                minDistance = distance[city]
+        unvisited.remove(nearest)
+        
+        for neighbor in getNeighbors(network, nearest):
+            if neighbor in unvisited:
+                nDist = distance[nearest] + getDistance(network, nearest, neighbor)
+                if nDist < distance[neighbor]:
+                    distance[neighbor] = nDist
+                    previous[neighbor] = nearest
+                    
+    return distance, previous
+
+'''
+Return the neighbors of a city.
+'''  
+def getNeighbors(network, city):
+    neighbors = list()
+    for route in network.edges:
+        if route.start == city:
+            neighbors.append(route.end)
+    return neighbors
+
+'''
+Return the distance between two cities.
+'''
+def getDistance(start, end):
+    for route in network.edges:
+        if route.start == start and route.end == end:
+            return route.distance
