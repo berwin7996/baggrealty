@@ -276,10 +276,12 @@ def edit_info(request, form, template, key):
 
 def map(request):
     properties = Property.objects.all()
-    start = "201+N+Goodwin+Ave+Urbana+IL+61801"
+    start = "201 N Goodwin Ave Urbana IL 61801"
     end = start
     path = shortest_route(properties, start, end)
+    urlstart = start.copy().replace(" ", "+")
+    urlend = end.copy().replace(" ", "+")
     waypoints = '|'.join(path)
-    url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBU8AHGoKQ9XfcO1QmfrdQjmEWKoiEZAuU&amp;origin="+start+"&amp;destination="+end+"&amp;waypoints="+waypoints+"&amp;mode=driving"
+    url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBU8AHGoKQ9XfcO1QmfrdQjmEWKoiEZAuU&amp;origin="+urlstart+"&amp;destination="+urlend+"&amp;waypoints="+waypoints+"&amp;mode=driving"
     context = {'url': url}
     return render(request, 'realty_management/map.html', context)
