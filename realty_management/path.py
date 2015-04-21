@@ -17,15 +17,15 @@ def shortest_route(properties, start, end):
         locations.append(Location(p.address))
 
     curr = Location(start)
-    path.append(curr.address)
+    path.append(curr.urladdress)
     while len(locations) > 1:
         nearest = find_nearest(curr, locations)
         if curr in locations:
             locations.remove(curr)
         curr = nearest
-        path.append(curr.address)
+        path.append(curr.urladdress)
     path.pop(0)
-    path.append(locations[0].address)
+    path.append(locations[0].urladdress)
     return path
 
 def find_nearest(curr, locations):
