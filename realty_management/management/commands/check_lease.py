@@ -2,6 +2,14 @@ from django.core.management import BaseCommand, CommandError
 from realty_management.models import Property, LivesIn
 from datetime import datetime, timedelta, date
 from django.core.mail import send_mail
+from twilio.rest import TwilioRestClient 
+ 
+# put your own credentials here 
+ACCOUNT_SID = "AC5152ba3e4bd9ec69b732ecb2f840de26" 
+AUTH_TOKEN = "e72ea0df11834ac6fe678d8debb4bb26" 
+ 
+client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN) 
+ 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -23,4 +31,10 @@ class Command(BaseCommand):
         #only sends one email per day with summary of which properties are expiring
         if foundcontract:
             message = send_mail('LEASE EXPIRING SOON', bodymsg, 'baggrealty@gmail.com', ['baggrealty@gmail.com'], fail_silently=False)
+            client.messages.create(
+                to="2245580568", 
+                from_="+16302837104", 
+                body=bodymsg,  
+            )
+
             print('========================')
