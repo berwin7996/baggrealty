@@ -6,4 +6,13 @@
 src="{{ url }}">
 </iframe>
 
+<div class="panel panel-default">
+	<div class="panel-heading">Property Path Order</div>
+	<ul class="list-group">
+		{% for loc in path %}
+		<li class="list-group-item">{{ loc }}</li>
+		{% endfor %}
+	</ul>
+</div>
+
 {% endblock %}
