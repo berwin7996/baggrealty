@@ -5,7 +5,7 @@ from django.forms.models import inlineformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from realty_management.forms import *
 from realty_management.models import *
-from realty_management.dijkstra import *
+from realty_management.path import *
 
 models = [MainTenant, Unit, Property, Vendor, LivesIn, Supports]
 forms = [MainTenantForm, UnitForm, PropertyForm, VendorForm, LivesInForm, SupportsForm]
