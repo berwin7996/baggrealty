@@ -282,6 +282,6 @@ def map(request):
     urlstart = start.replace(" ", "+")
     urlend = end.replace(" ", "+")
     waypoints = '|'.join(path)
-    url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBU8AHGoKQ9XfcO1QmfrdQjmEWKoiEZAuU&amp;origin="+urlstart+"&amp;destination="+urlend+"&amp;waypoints="+waypoints+"&amp;mode=driving"
+    url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBvzdk7SkZmva785N026l2k5W6Rzxd3Ucs&origin="+urlstart+"&destination="+urlend+"&waypoints="+waypoints+"&mode=driving"
     context = {'url': url}
     return render(request, 'realty_management/map.html', context)
