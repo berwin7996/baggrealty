@@ -20,7 +20,8 @@ def shortest_route(properties, start, end):
     path.append(curr.address)
     while len(locations) > 0:
         nearest = find_nearest(curr, locations)
-        locations.remove(curr)
+        if curr in locations:
+            locations.remove(curr)
         curr = nearest
         path.append(curr)
     path.pop([0])
