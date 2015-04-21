@@ -25,6 +25,7 @@ def shortest_route(properties, start, end):
         path.append(curr.address.replace(" ", "+"))
     path.pop(0)
     path.append(locations[0].address.replace(" ", "+"))
+    path.append(Location(end).address.replace(" ", "+"))
     return path
 
 def find_nearest(curr, locations):
