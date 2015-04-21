@@ -18,17 +18,19 @@ class Command(BaseCommand):
         bodymsg = ''
         for p in properties:
             print('checking contracts for ' + p.address)
-            todayplusthirty = date.today() + timedelta(days=30)
-            todayplusforty = date.today() + timedelta(days=40)
+            todayplustwenty = date.today() + timedelta(days=25)
+            todayplusforty = date.today() + timedelta(days=35)
             contracts = LivesIn.objects.filter(unit_number__in=p.get_owned_units())
             for c in contracts:
-                print('time right now + 30 days: ' + str(todayplusthirty))
+                print('time right now + 25 days: ' + str(todayplustwenty))
                 print('lease end time: ' + str(c.lease_end.date()))
-                if todayplusthirty > c.lease_end.date() and c.lease_end.date() < todayplusforty:
+                print('time right now + 35 days: ' + str(todayplusforty))
+                if todayplustwenty < c.lease_end.date() and c.lease_end.date() < todayplusforty:
                     #end email if date is 30 before end of lease
                     foundcontract = True
                     print(p.address, c.unit_number)
                     bodymsg += 'Your property at ' + str(p.address) + ' ' + str(c.unit_number) + ' has a lease expiring on ' + str(c.lease_end.date()) + ' for tenant named: ' + ''.join([i for i in str(c.main_tenant) if not i.isdigit()]) + '\n'
+                    print('----------')
         #only sends one email per day with summary of which properties are expiring
         if foundcontract:
             message = send_mail('LEASE EXPIRING SOON', bodymsg, 'baggrealty@gmail.com', ['baggrealty@gmail.com'], fail_silently=False)
