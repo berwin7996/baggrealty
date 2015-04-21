@@ -53,7 +53,6 @@ INSTALLED_APPS = (
     'django_forms_bootstrap',
     'bootstrap3_datetime',
     'realty_management',
-    'django_twilio',
 )
 
 MIDDLEWARE_CLASSES = (
