@@ -10,3 +10,4 @@ static3==0.5.1
 phonenumbers==7.0.2
 psycopg2==2.6
 wsgiref==0.1.2
+geopy==1.9.1
