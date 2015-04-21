@@ -24,7 +24,7 @@ def shortest_route(properties, start, end):
             locations.remove(curr)
         curr = nearest
         path.append(curr)
-    path.pop([0])
+    path.pop(0)
     return path
 
 def find_nearest(curr, locations):
