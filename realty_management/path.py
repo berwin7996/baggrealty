@@ -23,7 +23,7 @@ def shortest_route(properties, start, end):
         if curr in locations:
             locations.remove(curr)
         curr = nearest
-        path.append(curr)
+        path.append(curr.address)
     path.pop(0)
     return path
 
