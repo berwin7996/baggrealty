@@ -16,8 +16,8 @@ def shortest_route(properties, start, end):
     for p in properties:
         locations.append(Location(p.address))
 
-    curr = start
-    path.append(curr)
+    curr = Location(start)
+    path.append(curr.address)
     while len(locations) > 0:
         nearest = find_nearest(curr, locations)
         locations.remove(curr)
