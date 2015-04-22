@@ -136,8 +136,9 @@ def show_one(request, model_name, key):
                 'rate': support.monthly_rate,
                 'phone': support.vendor.phone,
                 'contact': support.vendor.contact_name,
-                'address': support.vendor.address
-            } for support in Supports.objects.filter(property=instance)]
+                'address': support.vendor.
+            } for support in Supports.objects.raw('SELECT * FROM Supports JOIN Vendor ON Vendor.company_name = Supports.vendor')]
+            #} for support in Supports.objects.filter(property=instance)]
         }
 
     return render(
