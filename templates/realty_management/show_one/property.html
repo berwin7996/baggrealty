@@ -160,7 +160,7 @@ table {
           <th>Rate</th>
         </tr>
         <tbody>
-        {% for vendor in vendors %}
+        {% for vendor in supports %}
         <tr data-toggle="collapse" data-target="#{{ vendor.name | add:vendor.service }}" class="accordion-toggle">
           <td>
             {{ vendor.name}}
