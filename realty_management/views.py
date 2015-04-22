@@ -131,7 +131,8 @@ def show_one(request, model_name, key):
                 'beds': unit.num_bed
             } for unit in Unit.objects.filter(property=instance)],
             'vendors': [{
-                'name': support.company_name,
+
+                #'name': support.company_name,
                 'service': support.service
                 '''
                 ,
