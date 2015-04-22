@@ -137,7 +137,7 @@ def show_one(request, model_name, key):
                 'phone': support.phone,
                 'contact': support.contact_name,
                 'address': support.address
-            } for support in Supports.objects.raw('SELECT * FROM Supports JOIN Vendor ON Vendor.company_name = Supports.vendor')]
+            } for support in Supports.objects.raw('SELECT * FROM "realty_management_supports" JOIN "realty_management_vendor" ON "realty_management_vendor"."company_name" = "realty_management_supports"."vendor_id"')]
             #} for support in Supports.objects.filter(property=instance)]
         }
 
