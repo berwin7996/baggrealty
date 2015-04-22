@@ -131,12 +131,12 @@ def show_one(request, model_name, key):
                 'beds': unit.num_bed
             } for unit in Unit.objects.filter(property=instance)],
             'vendors': [{
-                'name': support.vendor.company_name,
+                'name': support.company_name,
                 'service': support.service,
                 'rate': support.monthly_rate,
-                'phone': support.vendor.phone,
-                'contact': support.vendor.contact_name,
-                'address': support.vendor.
+                'phone': support.phone,
+                'contact': support.contact_name,
+                'address': support.address
             } for support in Supports.objects.raw('SELECT * FROM Supports JOIN Vendor ON Vendor.company_name = Supports.vendor')]
             #} for support in Supports.objects.filter(property=instance)]
         }
