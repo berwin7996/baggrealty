@@ -34,7 +34,8 @@ class Command(BaseCommand):
         avg_price = sum(prices)/len(prices)
         print avg_price
 
-        # Unit.objects.raw('SELECT ')
+        avgs = Unit.objects.raw('SELECT "realty_management_unit"."num_bed", "realty_management_unit"."num_baths", AVG("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
+        print avgs[0]
 
  
 now = time.gmtime(time.time())
