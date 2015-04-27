@@ -31,7 +31,7 @@ class Command(BaseCommand):
 
         # average price of all the apartments
         prices = [float(apt['cost']) for apt in apartment_details]
-        avg_price = sum(prices)/len(prices)
+        avg_price = sum(prices)/(len(prices)+0.01)
         print avg_price
 
         avgs = Unit.objects.raw('SELECT "realty_management_unit"."num_bed", "realty_management_unit"."num_baths", AVG("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
