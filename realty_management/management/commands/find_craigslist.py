@@ -34,10 +34,10 @@ class Command(BaseCommand):
         # cost_sum = Unit.objects.raw('SELECT SUM("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
         # distinct_queryset = MyModel.objects.filter(reverse_relationship__icontains='foo').distinct()
 
-        cost_sum = Unit.objects.aggregate(Sum('rent'))
+        cost_sum = Unit.objects.aggregate(sum('rent'))
         # sqft_sum = Unit.objects.raw('SELECT SUM("realty_management_unit"."sq_ft") AS avg FROM "realty_management_unit"')
         # sqft_sum = sqft_sum[0]
-        sqft_sum = Unit.objects.aggregate(Sum('sq_ft'))
+        sqft_sum = Unit.objects.aggregate(sum('sq_ft'))
         my_avg_cost_sqft = cost_sum / sqft_sum
         print 'mine: ' + str(my_avg_cost_sqft)
 
