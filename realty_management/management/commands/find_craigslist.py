@@ -38,7 +38,7 @@ class Command(BaseCommand):
         sqft_sum = Unit.objects.raw('SELECT SUM("realty_management_unit"."sq_ft") AS id FROM "realty_management_unit"')
         # sqft_sum = sqft_sum[0]
         # sqft_sum = Unit.objects.aggregate(sum('sq_ft'))
-        my_avg_cost_sqft = cost_sum / float(sqft_sum)
+        my_avg_cost_sqft = cost_sum[0] / float(sqft_sum[0])
         print 'mine: ' + str(my_avg_cost_sqft)
 
         cost = sum([int(apt['cost']) for apt in apartment_details])
