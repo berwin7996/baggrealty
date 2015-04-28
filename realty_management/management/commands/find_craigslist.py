@@ -48,7 +48,7 @@ class Command(BaseCommand):
 	        my_avg_cost_sqft = cost_sum / float(sqft_sum)
         print cost_sum, sqft_sum
         '''
-        
+
         cost = sum([int(apt['cost']) for apt in apartment_details])
         sqft = sum([int(apt['sqft']) for apt in apartment_details])
         print cost, sqft
@@ -79,7 +79,7 @@ def populate_details(data):
     for index, link in enumerate(list(set(data))):
 
         # debugging
-        if index > 10:
+        if index > 20:
             break
 
         print 'scraping ' + link
