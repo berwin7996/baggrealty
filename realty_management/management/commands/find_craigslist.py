@@ -29,13 +29,29 @@ class Command(BaseCommand):
         
         populate_details(data)
 
-        # average price of all the apartments
-        prices = [float(apt['cost']) for apt in apartment_details]
-        avg_price = sum(prices)/(len(prices)+0.01)
-        print avg_price
+        
+        # get avg cost per sq in
+        cost_sum = Unit.objects.raw('SELECT SUM("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
+        cost_sum = cost_sum[0]
+        sqft_sum = Unit.objects.raw('SELECT SUM("realty_management_unit"."sq_ft") AS avg FROM "realty_management_unit"')
+        sqft_sum = sqft_sum[0]
+        my_avg_cost_sqft = cost_sum / sqft_sum
+        print 'mine: ' + str(my_avg_cost_sqft)
 
-        avgs = Unit.objects.raw('SELECT "realty_management_unit"."num_bed", "realty_management_unit"."num_baths", AVG("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
-        print avgs[0]
+        cost = sum([int(apt['cost']) for apt in apartment_details])
+        sqft = sum([int(apt['sqft']) for apt in apartment_details])
+        print cost, sqft
+
+        craigslist_cost_sqft = cost/float(sqft)
+        print 'craigslist: ' + str(craigslist_cost_sqft)
+
+        # average price of all the apartments
+        # prices = [float(apt['cost']) for apt in apartment_details]
+        # avg_price = sum(prices)/(len(prices)+0.01)
+        # print avg_price
+
+        # avgs = Unit.objects.raw('SELECT "realty_management_unit"."num_bed", "realty_management_unit"."num_baths", AVG("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
+        # print avgs[0]
 
  
 now = time.gmtime(time.time())
@@ -61,21 +77,25 @@ def populate_details(data):
         sel = CSSSelector('p.attrgroup span')
         results = sel(tree)
 
-        match = results[0]
-        #print lxml.html.tostring(match)
-        br, ba = gettext(lxml.html.tostring(match))
-        #print 'br', br, 'ba', ba
+        match = results[1]
+       	# print lxml.html.tostring(match)
+        sqft = gettext(lxml.html.tostring(match))
+        # print ft, ba
         #break
 
         sel = CSSSelector('span.price')
         results = sel(tree)
         match = results[0]
         price = lxml.html.tostring(match)[21:-8]
-        print 'price', price
-        if price.isdigit():
-        	apartment_details.append({'br':br, 'ba':ba, 'cost':price})
+        # print 'price', price
+
+        if price.isdigit() and sqft > 0:
+        	#print {'sqft':sqft, 'cost':int(price)}
+        	apartment_details.append({'sqft':sqft, 'cost':int(price)})
         else:
         	print 'not a digit...'
+
+
 
 # for br ba
 def gettext(source):
@@ -83,23 +103,11 @@ def gettext(source):
     <span><b>1</b>BR / <b>1</b>Ba</span> 
     '''
     # print type(source)
+    if 'sup' not in source:
+    	return -1
     source = etree.fromstring(source)
     # print etree.tostring(source)
-    etree.strip_tags(source, 'b', 'span')
+    etree.strip_tags(source, 'b', 'span', 'sup')
     newstr = etree.tostring(source)
-    br = newstr.split('/')[0].split('>')[1]
-    ba = newstr.split('/')[1].split('<')[0]
-
-    br = br[:-2] # remove Br
-    ba = ba[:-2] # remove Ba
-
-    try:
-        br = int(br)
-    except:
-        br = 1
-    try:
-        ba = int(ba)
-    except:
-        ba = 1
-
-    return br, ba
+    sqft = newstr[6:-10]
+    return sqft
