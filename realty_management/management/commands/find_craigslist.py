@@ -31,6 +31,7 @@ class Command(BaseCommand):
 
         cost_sum = 0
         sqft_sum = 0
+        '''
         units = Unit.objects.all()
         for unit in units:
         	cost_sum += unit.rent
@@ -46,14 +47,15 @@ class Command(BaseCommand):
         if sqft_sum != 0:
 	        my_avg_cost_sqft = cost_sum / float(sqft_sum)
         print cost_sum, sqft_sum
-
+        '''
+        
         cost = sum([int(apt['cost']) for apt in apartment_details])
         sqft = sum([int(apt['sqft']) for apt in apartment_details])
         print cost, sqft
 
         if sqft != 0:
             craigslist_cost_sqft = cost/float(sqft)
-        print 'craigslist: ' + str(craigslist_cost_sqft)
+            print 'craigslist: ' + str(craigslist_cost_sqft)
 
         # average price of all the apartments
         # prices = [float(apt['cost']) for apt in apartment_details]
