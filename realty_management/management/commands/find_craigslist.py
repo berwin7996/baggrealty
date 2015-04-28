@@ -15,6 +15,7 @@ class Command(BaseCommand):
     help = 'Scrapes the sites for new dockets'
     def handle(self, *args, **options):
         self.stdout.write('\nScraping started at %s\n' % str(datetime.datetime.now()))
+        print 'scraping site: ' + scrape_url + 'search/apa'
         r = requests.get(scrape_url + 'search/apa')
         # build the DOM Tree
         tree = lxml.html.fromstring(r.text)
@@ -26,9 +27,10 @@ class Command(BaseCommand):
         # get the text out of all the results
         data = [str(result.get('href')) for result in results]
         data = [str(scrape_url + result) for result in data if result != 'None']
-        
+        print data
+        print '='*20
         populate_details(data)
-
+        print '='*20
         cost_sum = 0
         sqft_sum = 0
         '''
