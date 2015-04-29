@@ -18,6 +18,7 @@ class Command(BaseCommand):
         self.stdout.write('\nScraping started at %s\n' % str(datetime.datetime.now()))
         print 'scraping site: ' + scrape_url + 'search/apa'
         r = requests.get(scrape_url + 'search/apa')
+        print r
         # build the DOM Tree
         tree = lxml.html.fromstring(r.text)
         # print(tree)
