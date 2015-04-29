@@ -31,9 +31,11 @@ class Command(BaseCommand):
         print '='*20
         populate_details(data)
         print '='*20
+
+        '''
         cost_sum = 0
         sqft_sum = 0
-        '''
+        
         units = Unit.objects.all()
         for unit in units:
         	cost_sum += unit.rent
@@ -49,7 +51,7 @@ class Command(BaseCommand):
         if sqft_sum != 0:
 	        my_avg_cost_sqft = cost_sum / float(sqft_sum)
         print cost_sum, sqft_sum
-        '''
+        
 
         cost = sum([int(apt['cost']) for apt in apartment_details])
         sqft = sum([int(apt['sqft']) for apt in apartment_details])
@@ -66,7 +68,7 @@ class Command(BaseCommand):
 
         # avgs = Unit.objects.raw('SELECT "realty_management_unit"."num_bed", "realty_management_unit"."num_baths", AVG("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
         # print avgs[0]
-
+        '''
  
 now = time.gmtime(time.time())
  
