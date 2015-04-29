@@ -38,8 +38,8 @@ class Command(BaseCommand):
         
         units = Unit.objects.all()
         for unit in units:
-        	cost_sum += unit.rent
-        	sqft_sum += unit.sq_ft
+            cost_sum += unit.rent
+            sqft_sum += unit.sq_ft
         # get avg cost per sq in
         # cost_sum = Unit.objects.raw('SELECT SUM("realty_management_unit"."rent") AS id FROM "realty_management_unit"')
         # distinct_queryset = MyModel.objects.filter(reverse_relationship__icontains='foo').distinct()
@@ -49,7 +49,7 @@ class Command(BaseCommand):
         # sqft_sum = sqft_sum[0]
         # sqft_sum = Unit.objects.aggregate(sum('sq_ft'))
         if sqft_sum != 0:
-	        my_avg_cost_sqft = cost_sum / float(sqft_sum)
+            my_avg_cost_sqft = cost_sum / float(sqft_sum)
         print cost_sum, sqft_sum
         
 
@@ -79,11 +79,11 @@ def convertTime(t):
    # This used to add 5 * 60 * 60 to compensate for CST
 
 def populate_details(data):
-	# go through links to get info
+    # go through links to get info
     for index, link in enumerate(list(set(data))):
 
         # debugging
-        if index > 20:
+        if index > 3:
             break
 
         print 'scraping ' + link
@@ -94,7 +94,7 @@ def populate_details(data):
         results = sel(tree)
 
         match = results[1]
-       	# print lxml.html.tostring(match)
+        # print lxml.html.tostring(match)
         sqft = gettext(lxml.html.tostring(match))
         # print ft, ba
         #break
@@ -106,10 +106,10 @@ def populate_details(data):
         # print 'price', price
 
         if price.isdigit() and sqft > 0:
-        	#print {'sqft':sqft, 'cost':int(price)}
-        	apartment_details.append({'sqft':sqft, 'cost':int(price)})
+            #print {'sqft':sqft, 'cost':int(price)}
+            apartment_details.append({'sqft':sqft, 'cost':int(price)})
         else:
-        	print 'not a digit...'
+            print 'not a digit...'
 
 
 
@@ -120,7 +120,7 @@ def gettext(source):
     '''
     # print type(source)
     if 'sup' not in source:
-    	return -1
+        return -1
     source = etree.fromstring(source)
     # print etree.tostring(source)
     etree.strip_tags(source, 'b', 'span', 'sup')
