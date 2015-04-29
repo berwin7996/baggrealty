@@ -23,13 +23,13 @@ class Command(BaseCommand):
         sel = CSSSelector('p.row a')
         # Apply the selector to the DOM tree.
         results = sel(tree)
-        #print results
+        print results
         # get the text out of all the results
         data = [str(result.get('href')) for result in results]
         data = [str(scrape_url + result) for result in data if result != 'None']
         print data
         print '='*20
-        # populate_details(data)
+
         for index, link in enumerate(list(set(data))):
     
             # debugging
@@ -39,15 +39,12 @@ class Command(BaseCommand):
             print 'scraping ' + link
             r = requests.get(link)
             tree = lxml.html.fromstring(r.text)
-            #print lxml.html.tostring(tree)
             sel = CSSSelector('p.attrgroup span')
             results = sel(tree)
     
             match = results[1]
-            # print lxml.html.tostring(match)
             sqft = gettext(lxml.html.tostring(match))
-            # print ft, ba
-            #break
+
     
             sel = CSSSelector('span.price')
             results = sel(tree)
