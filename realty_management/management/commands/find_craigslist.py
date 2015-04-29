@@ -29,8 +29,38 @@ class Command(BaseCommand):
         data = [str(scrape_url + result) for result in data if result != 'None']
         print data
         print '='*20
-        populate_details(data)
-        print '='*20
+        # populate_details(data)
+        for index, link in enumerate(list(set(data))):
+    
+            # debugging
+            if index > 3:
+                break
+    
+            print 'scraping ' + link
+            r = requests.get(link)
+            tree = lxml.html.fromstring(r.text)
+            #print lxml.html.tostring(tree)
+            sel = CSSSelector('p.attrgroup span')
+            results = sel(tree)
+    
+            match = results[1]
+            # print lxml.html.tostring(match)
+            sqft = gettext(lxml.html.tostring(match))
+            # print ft, ba
+            #break
+    
+            sel = CSSSelector('span.price')
+            results = sel(tree)
+            match = results[0]
+            price = lxml.html.tostring(match)[21:-8]
+            # print 'price', price
+    
+            if price.isdigit() and sqft > 0:
+                #print {'sqft':sqft, 'cost':int(price)}
+                apartment_details.append({'sqft':sqft, 'cost':int(price)})
+            else:
+                print 'not a digit...'
+            print '='*20
 
         '''
         cost_sum = 0
