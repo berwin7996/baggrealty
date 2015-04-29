@@ -4,7 +4,7 @@ from realty_management.models import Unit
 
 import requests
 import lxml
-from lxml import html, etree
+from lxml import html
 from lxml.cssselect import CSSSelector
 import time, datetime
 
@@ -20,15 +20,16 @@ class Command(BaseCommand):
         r = requests.get(scrape_url + 'search/apa')
         # build the DOM Tree
         tree = lxml.html.fromstring(r.text)
+        # print(tree)
         # construct a CSS Selector
         sel = CSSSelector('p.row a')
         # Apply the selector to the DOM tree.
         results = sel(tree)
-        print results
+        # print results
         # get the text out of all the results
         data = [str(result.get('href')) for result in results]
         data = [str(scrape_url + result) for result in data if result != 'None']
-        print data
+        print data[:5]
         print '='*20
         '''
         for index, link in enumerate(list(set(data))):
