@@ -12,6 +12,7 @@ apartment_details = []
 # scrape_url = 'http://chambana.craigslist.org/search/apa'
 scrape_url = 'http://chambana.craigslist.org/'
 class Command(BaseCommand):
+    
     help = 'Scrapes the sites for new dockets'
     def handle(self, *args, **options):
         self.stdout.write('\nScraping started at %s\n' % str(datetime.datetime.now()))
@@ -29,7 +30,7 @@ class Command(BaseCommand):
         data = [str(scrape_url + result) for result in data if result != 'None']
         print data
         print '='*20
-
+        '''
         for index, link in enumerate(list(set(data))):
     
             # debugging
@@ -41,7 +42,7 @@ class Command(BaseCommand):
             tree = lxml.html.fromstring(r.text)
             sel = CSSSelector('p.attrgroup span')
             results = sel(tree)
-            '''
+            
             match = results[1]
             sqft = gettext(lxml.html.tostring(match))
 
@@ -58,7 +59,7 @@ class Command(BaseCommand):
             else:
                 print 'not a digit...'
             print '='*20
-            '''
+        '''
 
  
 now = time.gmtime(time.time())
