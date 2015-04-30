@@ -23,17 +23,17 @@ class Command(BaseCommand):
         sel = CSSSelector('p.row a')
         # Apply the selector to the DOM tree.
         results = sel(tree)
-        print results
+        # print results
         # get the text out of all the results
         data = [str(result.get('href')) for result in results]
         data = [str(scrape_url + result) for result in data if result != 'None']
-        print data
+        # print data
         print '='*20
 
         for index, link in enumerate(list(set(data))):
     
             # debugging
-            if index > 3:
+            if index > 20:
                 break
     
             print 'scraping ' + link
@@ -41,25 +41,27 @@ class Command(BaseCommand):
             tree = lxml.html.fromstring(r.text)
             sel = CSSSelector('p.attrgroup span')
             results = sel(tree)
-    
-            match = results[1]
-            sqft = gettext(lxml.html.tostring(match))
+            try:
+                match = results[1]
+                sqft = gettext(lxml.html.tostring(match))
 
-    
-            sel = CSSSelector('span.price')
-            results = sel(tree)
-            match = results[0]
-            price = lxml.html.tostring(match)[21:-8]
-            # print 'price', price
-    
-            if price.isdigit() and sqft > 0:
-                #print {'sqft':sqft, 'cost':int(price)}
-                apartment_details.append({'sqft':sqft, 'cost':int(price)})
-            else:
-                print 'not a digit...'
+        
+                sel = CSSSelector('span.price')
+                results = sel(tree)
+                match = results[0]
+                price = lxml.html.tostring(match)[21:-8]
+                # print 'price', price
+        
+                if price.isdigit() and sqft > 0:
+                    #print {'sqft':sqft, 'cost':int(price)}
+                    apartment_details.append({'sqft':sqft, 'cost':int(price)})
+                else:
+                    print 'not a digit...'
+            except:
+                print 'failed'
             print '='*20
 
-        '''
+        
         cost_sum = 0
         sqft_sum = 0
         
@@ -77,16 +79,19 @@ class Command(BaseCommand):
         # sqft_sum = Unit.objects.aggregate(sum('sq_ft'))
         if sqft_sum != 0:
             my_avg_cost_sqft = cost_sum / float(sqft_sum)
-        print cost_sum, sqft_sum
-        
+        # print cost_sum, sqft_sum
+        print 'mine: $' + str(round(cost_sum/float(sqft_sum),2)) + '/sqft'
+
+
+        # ================================ craigslist ================================
 
         cost = sum([int(apt['cost']) for apt in apartment_details])
         sqft = sum([int(apt['sqft']) for apt in apartment_details])
-        print cost, sqft
+        
 
         if sqft != 0:
             craigslist_cost_sqft = cost/float(sqft)
-            print 'craigslist: ' + str(craigslist_cost_sqft)
+            print 'craigslist: $' + str(round(craigslist_cost_sqft, 2)) + '/sqft'
 
         # average price of all the apartments
         # prices = [float(apt['cost']) for apt in apartment_details]
@@ -95,7 +100,7 @@ class Command(BaseCommand):
 
         # avgs = Unit.objects.raw('SELECT "realty_management_unit"."num_bed", "realty_management_unit"."num_baths", AVG("realty_management_unit"."rent") AS avg FROM "realty_management_unit"')
         # print avgs[0]
-        '''
+        
  
 now = time.gmtime(time.time())
  

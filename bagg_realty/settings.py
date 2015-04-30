@@ -75,8 +75,11 @@ WSGI_APPLICATION = 'bagg_realty.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "bagg_realty_db"
+        'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': "bagg_realty_db"
+        'NAME': 'mydb',
+        'USER': 'postgres',
+        'PASSWORD': 'password'
     }
 }
 
@@ -104,7 +107,8 @@ STATIC_URL = '/static/'
 
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    # 'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(default='postgres://postgres:password@localhost/mydb')
 }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
